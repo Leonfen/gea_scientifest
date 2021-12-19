@@ -9,14 +9,12 @@ Devi scaricare Visual studio c++
 
 Prima di tutto entra nell'ambiente virutale immettendo nel cmd
 
-'''
-percorso/per/progetto/Scripts/activate
+'''percorso/per/progetto/Scripts/activate
 '''
 
 Poi seleziona la cartella del progetto facendo:
 
-'''
-py percorso/per/progetto/project/main.py
+'''py percorso/per/progetto/project/main.py
 '''
 
 ## Crediti
