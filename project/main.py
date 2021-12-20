@@ -40,6 +40,7 @@ def wishMe():
 def takeCommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source)
         print("Sto ascoltando...")
         audio = r.listen(source)
 
@@ -70,12 +71,14 @@ if __name__ == '__main__':
             break
 
         if 'wikipedia' in statement:
-            speak('Searching Wikipedia...')
+            speak('Cercando su wikipedia...')
             statement = statement.replace("wikipedia", "")
-            results = wikipedia.summary(statement, sentences=3)
-            speak("Secondo wikipedia")
-            print(results)
-            speak(results)
+            try:
+                results = wikipedia.summary(statement, sentences=3)
+                speak("Secondo wikipedia")
+                speak(results)
+            except:
+                speak('Devi cercare qualcosa')
 
         elif 'apri youtube' in statement:
             webbrowser.open_new_tab("https://www.youtube.com")
