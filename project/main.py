@@ -10,9 +10,12 @@ from ecapture import ecapture as ec
 import wolframalpha
 import json
 import requests
+import goslate
 
 
-print('Salve')
+gs = goslate.Goslate()
+
+print('Accendendo sium')
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -86,13 +89,13 @@ if __name__ == '__main__':
 
         elif 'apri gmail' in statement:
             webbrowser.open_new_tab("gmail.com")
-            speak("Google Mail open now")
+            speak("Gmail si sta aprendo")
             time.sleep(5)
 
         elif "tempo" in statement:
             api_key = "8ef61edcf1c576d65d836254e11ea420"
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
-            speak("whats the city name")
+            speak("qual è il nome della città")
             city_name = takeCommand()
             complete_url = base_url+"appid="+api_key+"&q="+city_name
             response = requests.get(complete_url)
@@ -103,11 +106,11 @@ if __name__ == '__main__':
                 current_humidiy = y["humidity"]
                 z = x["weather"]
                 weather_description = z[0]["description"]
-                speak(" Temperature in kelvin unit is " +
-                      str(current_temperature) +
-                      "\n humidity in percentage is " +
+                speak(" La temperatura in celsius è " +
+                      str(current_temperature - 274) +
+                      "\n l'umidità in percentuale " +
                       str(current_humidiy) +
-                      "\n description  " +
+                      "\n descrizione  " +
                       str(weather_description))
             else:
                 speak(" Non ho trovato la città ")
@@ -117,9 +120,9 @@ if __name__ == '__main__':
             speak(f"the time is {strTime}")
 
         elif 'chi sei tu' in statement or 'che cosa puoi fare' in statement or 'presentati' in statement:
-            speak('I am G-one version 1 point O your persoanl assistant. I am programmed to minor tasks like'
-                  'opening youtube,google chrome,gmail and stackoverflow ,predict time,take a photo,search wikipedia,predict weather'
-                  'in different cities , get top headline news from times of india and you can ask me computational or geographical questions too!')
+            speak('Io sono Gea, il tuo assistente personale. Sono programmato per eseguire piccole funzoni come'
+                  'aprire youtube,google chrome, gmail and stackoverflow, cercare su wikipedia'
+                  'dire le condizioni atmosferiche in diverse città , dire i titoli delle diverse notizie e puoi anche chiedermi domande di carattere scientifico e geografico!')
 
         elif "chi ti ha costruita" in statement or "chi ti ha creata" in statement or "chi ti ha scoperta" in statement or "chi ti ha costruito" in statement or "chi ti ha creato" in statement or "chi ti ha scoperto" in statement:
             speak("Sono stata costruita da Mirthula e riprogrammata dalla quinta B osa")
@@ -132,27 +135,25 @@ if __name__ == '__main__':
                 "https://timesofindia.indiatimes.com/home/headlines")
             time.sleep(6)
 
-        elif "camera" in statement or "take a photo" in statement:
-            ec.capture(0, "robo camera", "img.jpg")
-
-        elif 'search' in statement:
-            statement = statement.replace("search", "")
+        elif 'cerca' in statement:
+            statement = statement.replace("cerca", "")
             webbrowser.open_new_tab(statement)
             time.sleep(5)
 
-        elif 'ask' in statement:
-            speak('I can answer to computational and geographical questions and what question do you want to ask now')
+        elif 'chiedi' in statement:
+            speak(
+                'posso rispondere a domande di carattere scientifico e geografico che chiedi')
             question = takeCommand()
+            translatedText = gs.translate(question, 'en')
             app_id = "R2K75H-7ELALHR35X"
             client = wolframalpha.Client('R2K75H-7ELALHR35X')
             res = client.query(question)
             answer = next(res.results).text
             speak(answer)
-            print(answer)
 
         elif "spegni il pc" in statement or "chiudi il pc" in statement:
             speak(
-                "Ok , your pc will log off in 10 sec make sure you exit from all applications")
+                "Ok, il tuo pc si chiuderà in 10 secondi; esci da tutte quante le applicazioni")
             subprocess.call(["shutdown", "/l"])
 
 time.sleep(3)
